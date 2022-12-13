@@ -1006,8 +1006,12 @@ WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
     {
-        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam);
-        const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
+        SDL_Scancode code;
+        const Uint8 *keyboardState;
+        if (wParam == VK_PROCESSKEY)
+            break;
+        code = WindowsScanCodeToSDLScanCode(lParam, wParam);
+        keyboardState = SDL_GetKeyboardState(NULL);
 
         /* Detect relevant keyboard shortcuts */
         if (keyboardState[SDL_SCANCODE_LALT] == SDL_PRESSED || keyboardState[SDL_SCANCODE_RALT] == SDL_PRESSED) {
@@ -1028,8 +1032,12 @@ WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_SYSKEYUP:
     case WM_KEYUP:
     {
-        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam);
-        const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
+        SDL_Scancode code;
+        const Uint8 *keyboardState;
+        if (wParam == VK_PROCESSKEY)
+            break;
+        code = WindowsScanCodeToSDLScanCode(lParam, wParam);
+        keyboardState = SDL_GetKeyboardState(NULL);
 
         if (code != SDL_SCANCODE_UNKNOWN) {
             if (code == SDL_SCANCODE_PRINTSCREEN &&
